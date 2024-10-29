@@ -501,7 +501,7 @@ function M:create_buffer()
 				["l"] = do_list_parallel,
 				["2"] = do_list_parallel,
 				["p"] = do_patchdiff,
-				["3"] = do_patchdiff,
+				["e"] = do_patchdiff,
 				["<c-r>"] = function()
 					if not self.pr_number then
 						vim.notify("not a pr", vim.log.levels.WARN, {})

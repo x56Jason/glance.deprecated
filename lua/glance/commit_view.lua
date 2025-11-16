@@ -260,8 +260,14 @@ end
 --- Creates a new CommitViewBuffer
 -- @param commit_id the id of the commit
 -- @return CommitViewBuffer
-function M.new(commit_id)
-	local output = vim.fn.systemlist("git show --format=fuller " .. commit_id)
+function M.new(commit_id, opts)
+	local git_cmd = "git show --format=fuller"
+	if opts.diff_context ~= nil then
+		git_cmd = git_cmd .. " -U" .. opts.diff_context
+	end
+	git_cmd = git_cmd .. " " .. commit_id
+
+	local output = vim.fn.systemlist(git_cmd)
 	if vim.v.shell_error ~= 0 then
 		return nil
 	end

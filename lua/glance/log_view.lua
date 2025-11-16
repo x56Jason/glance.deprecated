@@ -125,7 +125,8 @@ function M:open_alldiff_view()
 end
 
 function M:open_commit_view(commit)
-	local view = CommitView.new(commit)
+	local opts = {diff_context = require("glance").config.diff_context}
+	local view = CommitView.new(commit, opts)
 	if (view == nil) then
 		vim.notify("Bad commit: " .. commit, vim.log.levels.ERROR, {})
 		return
@@ -150,12 +151,14 @@ function M:open_parallel_views(commit)
 		return
 	end
 
-	local view_left = CommitView.new(upstream_commit_id)
+	local opts = {diff_context = require("glance").config.diff_context}
+
+	local view_left = CommitView.new(upstream_commit_id, opts)
 	if (view_left == nil) then
 		vim.notify("Bad commit: " .. upstream_commit_id, vim.log.levels.ERROR, {})
 		return
 	end
-	local view_right = CommitView.new(commit_id)
+	local view_right = CommitView.new(commit_id, opts)
 	if (view_right == nil) then
 		vim.notify("Bad commit: " .. commit_id, vim.log.levels.ERROR, {})
 		view_left:close()
